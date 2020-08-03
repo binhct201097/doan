@@ -4,37 +4,30 @@
             <div class="col-sm-3">
                 <div class="left-sidebar">
                     <h2>Danh mục sản phẩm</h2>
-                    <div class="panel-group category-products" id="accordian">
+                    <div class="panel-group category-products" id="accordian"
+                        style="text-align: center; letter-spacing: 0.5px">
                         <!--category-productsr-->
                         @foreach($cate_product as $key=>$cate)
                         <div class="panel panel-default">
                             <div class="panel-heading">
                                 <h4 class="panel-title">
-                                    <a data-toggle="collapse" data-parent="#accordian" href="#sportswear">
-                                        <span class="badge pull-right"><i class="fa fa-plus"></i></span>
+                                    <a data-toggle="collapse" data-parent="#accordian"
+                                        href="{!! url('loai-san-pham',$cate->loaisanpham_url) !!}">
+                                        <span class="badge pull-right"></span>
                                         {{$cate->loaisanpham_ten}}
                                     </a>
                                 </h4>
-                            </div>
-
-                            <div id="sportswear" class="panel-collapse collapse">
-                                <div class="panel-body">
-                                    <ul>
-                                        @foreach($product as $key=>$pro)
-                                        @if($cate->id == $pro->loaisanpham_id)
-                                        <li><a href="#">{{$pro->sanpham_ten}} </a></li>
-                                        @endif
-                                        @endforeach
-                                    </ul>
-                                </div>
                             </div>
                         </div>
                         @endforeach
                     </div>
                     @foreach($promotion as $promo)
+                    @if($promo->quangcao_trang_thai == 1)
                     <div class="shipping text-center">
-                        <img src="{!! asset('resources/upload/quangcao/'.$promo->quangcao_anh) !!}" alt="">
+                        <a href="{{$promo->link}}"><img
+                                src="{!! asset('resources/upload/quangcao/'.$promo->quangcao_anh) !!}" alt=""></a>
                     </div>
+                    @endif
                     @endforeach
 
                 </div>

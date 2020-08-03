@@ -100,7 +100,7 @@
                                 <div>
                                     <select id="input" name="txtDonViTinh" class="form-control">
                                         <option value="">--Chọn đơn vị tính--</option>
-                                        <?php Select_DonviTinh($donvitinh);?>
+                                        <?php Select_Function($donvitinh);?>
                                     </select>
                                 </div>
                                 <div>
@@ -108,9 +108,6 @@
                                 </div>
                             </div>
                         </div>
-
-
-
 
                         <div class="col-lg-6">
                             <div class="form-group">

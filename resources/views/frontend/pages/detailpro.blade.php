@@ -1,5 +1,22 @@
 @extends('frontend.master')
 @section('content')
+<style>
+.product-information span label {
+    color: #696763;
+    font-family: 'Roboto', sans-serif;
+    font-weight: 700;
+    margin: 19px 15px 15px -147px;
+    font-size: 16px;
+}
+
+a.btn.btn-fefault.cart {
+    margin-left: 0px;
+}
+
+a.btn.btn-fefault.cart:hover {
+    color: white !important;
+}
+</style>
 <div class="container">
     <div class="row">
         <div class="col-sm-3">
@@ -27,21 +44,21 @@ $tylegia = DB::select('select khuyenmai_phan_tram from sanpham as sp, sanphamkhu
 $giakm = ($sanpham->gia_ban - ($tylegia[0]->khuyenmai_phan_tram * $sanpham->gia_ban * 0.01));
 $tyle = $tylegia[0]->khuyenmai_phan_tram * 0.01;
 ?>
-                                <h5>{!! number_format($giakm,0,",",".") !!} vnđ <br> {!!
-                                    number_format("$sanpham->gia_ban",0,",",".")
-                                    !!}
-                                    vnđ</h5>
+                                <h5 style="font-size: 20px; margin-top: -2px">{!! number_format($giakm,0,",",".") !!}
+                                    vnđ <br> <del style="color:grey">{!!
+                                        number_format("$sanpham->gia_ban",0,",",".")
+                                        !!}
+                                        vnđ</del></h5>
                                 @else
-                                <h5>{!! number_format("$sanpham->gia_ban",0,",",".") !!} vnđ</h5>
+                                <h5 style="font-size: 20px; margin-top: -2px">{!!
+                                    number_format("$sanpham->gia_ban",0,",",".") !!} vnđ</h5>
                                 @endif
-                            </span>
+                            </span><br>
                             <label>Số lượng:</label>
                             <input type="text" value="1" disable>
 
                             <a href="{!! url('mua-hang',[$sanpham->id,$sanpham->sanpham_url]) !!}"
-                                class="btn btn-fefault cart"> <i class="fa fa-shopping-cart"></i>Add
-                                to
-                                cart</a>
+                                class="btn btn-fefault cart"> <i class="fa fa-shopping-cart"></i>Thêm vào giỏ hàng</a>
                         </span>
                         <p><b>Tình trạng:</b> Mới</p>
                         <p><b>Chi Nhánh:</b> AHT-MOBILE Hà Nội</p>
@@ -73,6 +90,28 @@ $tyle = $tylegia[0]->khuyenmai_phan_tram * 0.01;
 
                     <div class="tab-pane fade" id="reviews">
                         <div class="col-sm-12">
+
+                            <ul class="aa-review-nav">
+                                @foreach ($binhluan as $item)
+                                @if($item->binhluan_trang_thai == 1 && $item->sanpham_id == $sanpham->id)
+                                <li>
+                                    <div class="media">
+                                        <div class="media-left" style="float:left">
+                                            <a href="#">
+                                                <img src="{!! url('public/images/ava.png') !!}" alt="fashion img"
+                                                    style="width: 50px; height: 50px;">
+                                            </a>
+                                        </div>
+                                        <div class="media-body" style="float:left">
+                                            <h4 class="media-heading"><strong>{!! $item->binhluan_ten !!}</strong> -
+                                                <span>{!! date("d-m-Y",strtotime($item->created_at)) !!}</span></h4>
+                                            <p>{!! $item->binhluan_noi_dung !!}</p>
+                                        </div>
+                                    </div>
+                                </li>
+                                @endif
+                                @endforeach
+                            </ul>
 
                             @if (Auth::check())
                             <form action="{!! url('binh-luan') !!}" class="aa-review-form" method="POST">
@@ -163,7 +202,7 @@ $sanphamkhuyenmai = DB::select('select* from sanpham as sp, sanphamkhuyenmai as 
                         <div class="single-products">
                             <div class="productinfo text-center">
                                 <img src="{!! asset('resources/upload/sanpham/'.$new->sanpham_anh) !!}" alt="" />
-                                <p style="padding-top: 15px"><a
+                                <p style="padding-top: 15px"><a style="color: black"
                                         href="{!! url('san-pham',$new->sanpham_url) !!}">{!!$new->sanpham_ten !!}</a>
                                 </p>
                                 @if ($new->sanpham_khuyenmai == 1)
@@ -172,22 +211,23 @@ $tylegia = DB::select('select khuyenmai_phan_tram from sanpham as sp, sanphamkhu
 $giakm = ($new->gia_ban - ($tylegia[0]->khuyenmai_phan_tram * $new->gia_ban * 0.01));
 $tyle = $tylegia[0]->khuyenmai_phan_tram * 0.01;
 ?>
-                                <h5>{!! number_format($giakm,0,",",".") !!} vnđ <br> {!!
-                                    number_format("$new->gia_ban",0,",",".")
-                                    !!}
-                                    vnđ</h5>
+                                <h5 style="font-size: 20px; margin-top: -2px">{!! number_format($giakm,0,",",".") !!}
+                                    vnđ <br> <del style="color: grey">{!!
+                                        number_format("$new->gia_ban",0,",",".")
+                                        !!}
+                                        vnđ</del></h5>
                                 @else
-                                <h5>{!! number_format("$new->gia_ban",0,",",".") !!} vnđ</h5>
+                                <h5 style="font-size: 20px; margin-top: -2px">{!!
+                                    number_format("$new->gia_ban",0,",",".") !!} vnđ</h5>
                                 @endif
 
                                 <a href="{!! url('mua-hang',[$new->id,$new->sanpham_url]) !!}"
-                                    class="btn btn-default add-to-cart"><i class="fa fa-shopping-cart"></i>Add
-                                    to
-                                    cart</a>
+                                    class="btn btn-default add-to-cart"><i class="fa fa-shopping-cart"></i>Thêm vào giỏ
+                                    hàng</a>
                             </div>
-                            <div class="product-overlay">
+                            <div>
                                 <div class="overlay-content">
-                                    <p style="padding-top: 15px"><a
+                                    <p style="padding-top: 15px"><a style="color: black"
                                             href="{!! url('san-pham',$new->sanpham_url) !!}">{!!$new->sanpham_ten
                                             !!}</a>
                                     </p>
@@ -205,9 +245,8 @@ $tyle = $tylegia[0]->khuyenmai_phan_tram * 0.01;
                                     @endif
                                     <p>{{$new->sanpham_ten}}</p>
                                     <a href="{!! url('mua-hang',[$new->id,$new->sanpham_url]) !!}"
-                                        class="btn btn-default add-to-cart"><i class="fa fa-shopping-cart"></i>Add
-                                        to
-                                        cart</a>
+                                        class="btn btn-default add-to-cart"><i class="fa fa-shopping-cart"></i>Thêm vào
+                                        giỏ hàng</a>
                                 </div>
                             </div>
                         </div>

@@ -8,7 +8,7 @@ class Donvitinh extends Model
 {
     protected $table = 'donvitinh';
 
-	protected $fillable = ['donvitinh_ten','donvitinh_mo_ta'];
+    protected $fillable = ['donvitinh_ten', 'donvitinh_mo_ta', 'soluong'];
 
-	public $timestamps = false;
+    public $timestamps = false;
 }

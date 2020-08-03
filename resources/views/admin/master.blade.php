@@ -119,17 +119,21 @@
                                 khách hàng</a>
                         </li>
                         <li>
-                            <a href="{!! route('admin.baiviet.list') !!}"><i class="fa fa-list"></i>Bài viết</a>
+                            <a href="{!! route('admin.baiviet.list') !!}"><i class="fa fa-newspaper-o"></i>Bài viết</a>
                         </li>
                         <li>
-                            <a href="{!! route('admin.quangcao.list') !!}"><i class="fa-share-alt-square"></i>Quảng
+                            <a href="{!! route('admin.quangcao.list') !!}"><i class="fa fa-yelp"></i>
+                                Quảng
                                 cáo</a>
                         </li>
                         <li>
-                            <a href="{!! route('admin.slides.list') !!}"><i class="fa-share-alt-square"></i>Slider</a>
+                            <a href="{!! route('admin.slides.list') !!}"><i class="fa fa-sliders"></i>Slider</a>
                         </li>
                         <li>
                             <a href="{!! route('admin.khuyenmai.list') !!}"><i class="fa fa-bars"></i>Khuyến mãi</a>
+                        </li>
+                        <li>
+                            <a href=""><i class="fa fa-share"></i>Liên hệ</a>
                         </li>
                         <li>
                             <a href="{!! URL::route('admin.thongke.list') !!}"><i class="fa fa-cubes"></i>Kho hàng</a>

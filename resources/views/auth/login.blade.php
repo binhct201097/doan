@@ -5,7 +5,7 @@
 
 <div class="col-md-10 col-md-offset-1">
     <div class="panel panel-default">
-        <div class="panel-heading">Đăng nhập</div>
+        <div class="panel-heading" style="color: #fff">Đăng nhập</div>
         <div class="panel-body">
 
             @if(session('thongbao'))
@@ -49,12 +49,20 @@
 
                 <div class="form-group">
                     <div class="col-md-6 col-md-offset-4">
-                        <button type="submit" class="aa-browse-btn">
-                            <i class="fa fa-btn fa-sign-in"></i>Đăng nhập
+                        <button type="submit" style="background: #FE980F;
+    padding: 4px 11px;
+    height: 33px;
+    color: #fff;
+    border-radius: 20px;
+    border: none;
+    margin-right: 10px;">
+                            Đăng nhập
                         </button>
 
-                        <a class="aa-browse-btn" href="{{ url('dang-ky') }}" type="button"> <i
-                                class="fa fa-registered"></i>Đăng kí</a>
+                        <a href="{{ url('dang-ky') }}" type="button" style="border: 1px solid;
+    border-radius: 20px;
+    padding: 5px 20px;
+    display: inline-block;"> <i class="fa fa-registered"></i>Đăng kí</a>
                     </div>
                 </div>
             </form>

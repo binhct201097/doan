@@ -42,13 +42,22 @@ class LohangController extends Controller
 
     public function postAdd(LohangAddRequest $request)
     {
+        $donvi = 0;
+        $donvitinhs = DB::table('donvitinh')->get();
+        foreach ($donvitinhs as $key => $value) {
+            if ($value->id == $request->txtDonViTinh) {
+                echo $value->soluong;
+                $donvi = $value->soluong;
+            }
+        }
+
         $lohang = new Lohang;
 
         $lohang->lohang_gia_mua_vao = $request->txtLHBuyPrice;
-        $lohang->lohang_so_luong_nhap = $request->txtLHQuant * $request->txtDonViTinh;
+        $lohang->lohang_so_luong_nhap = $request->txtLHQuant * $donvi;
         $lohang->lohang_so_luong_da_ban = 0;
         $lohang->lohang_so_luong_doi_tra = 0;
-        $lohang->lohang_so_luong_hien_tai = $request->txtLHQuant * $request->txtDonViTinh;
+        $lohang->lohang_so_luong_hien_tai = $request->txtLHQuant * $donvi;
         $lohang->nhacungcap_id = $request->txtLHVendor;
         $lohang->sanpham_id = $request->txtLHProduct;
 
@@ -56,7 +65,7 @@ class LohangController extends Controller
         $lohang->ngay_nhap = $request->txtNgayNhap;
         $lohang->id_nguoinhap = $request->txtNguoiNhap;
         $lohang->id_donvitinh = $request->txtDonViTinh;
-        $lohang->thanhtien = $request->txtLHQuant * $request->txtDonViTinh * $request->txtLHBuyPrice;
+        $lohang->thanhtien = $request->txtLHQuant * $donvi * $request->txtLHBuyPrice;
 
         $lohang->save();
         return redirect()->route('admin.lohang.list')->with(['flash_level' => 'success', 'flash_message' => 'Thêm lô hàng thành công!']);

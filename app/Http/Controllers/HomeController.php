@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Binhluan;
 use App\Http\Requests\BinhluanRequest;
+use App\LienHe;
 use Cart;
 use DB;
 use Mail;
@@ -188,7 +189,9 @@ class HomeController extends Controller
         $hinhsanpham = DB::table('hinhsanpham')->where('sanpham_id', $id)->get();
         // $loaisanpham = DB::table('loaisanpham')->where('id', $sanpham['loaisanpham_id'])->first();
         // $nhom = DB::table('nhom')->where('id', $loaisanpham->nhom_id)->first();
-        $binhluan = DB::table('binhluan')->where([['sanpham_id', $id], ['binhluan_trang_thai', 1]])->get();
+        // $binhluan = DB::table('binhluan')->where([['sanpham_id', $id], ['binhluan_trang_thai', 1]])->get();
+        $binhluan = DB::table('binhluan')->get();
+        // var_dump($binhluan);die;
         return view('frontend.pages.detailpro', compact('binhluan', 'loaisp', 'product_new', 'baiviet', 'promotion', 'sanpham', 'cate_product', 'product', 'slide', 'sanpham', 'hinhsanpham', 'lohangc'));
         // print_r($loaisanpham);
     }
@@ -228,14 +231,23 @@ class HomeController extends Controller
 
     public function postContact(Request $request)
     {
-        $data = ['mail' => Request::input('txtMail'), 'name' => Request::input('txtName'), 'content' => Request::input('txtContent')];
+        $data = ['email' => Request::input('email'), 'ten' => Request::input('ten'), 'chu_de' => Request::input('chu_de'), 'noidung' => Request::input('noidung')];
         Mail::send('auth.emails.contactmail', $data, function ($message) {
-            $message->from('appnsfw@gmail.com', 'Khách hàng');
+            $message->from('sunflower.201097@gmail.com', 'Khách hàng');
 
-            $message->to('appnsfw@gmail.com', 'Admin');
+            $message->to('sunflower.201097@gmail.com', 'Admin');
 
             $message->subject('Mail liên hệ!!!');
         });
+
+        $lienhe = new LienHe;
+
+        $lienhe->ten = Request::input('ten');
+        $lienhe->email = Request::input('email');
+        $lienhe->chu_de = Request::input('chu_de');
+        $lienhe->noidung = Request::input('noidung');
+
+        $lienhe->save();
 
         echo "<script>
          alert('Cảm ơn bạn đã góp ý! Chúng tôi sẽ liên hệ với bạn trong thời gian sớm nhất');
@@ -321,79 +333,79 @@ class HomeController extends Controller
         return view('frontend.pages.checkin', compact('content', 'total'));
     }
 
-    // public function postCheckin(ThanhtoanRequest $request)
-    // {
-    //     $content = Cart::content();
-    //     $total = Cart::total();
+    public function postCheckin(ThanhtoanRequest $request)
+    {
+        $content = Cart::content();
+        $total = Cart::total();
 
-    //     $donhang = new Donhang;
-    //     $donhang->donhang_nguoi_nhan = $request->txtNNName;
-    //     $donhang->donhang_nguoi_nhan_email = $request->txtNNEmail;
-    //     $donhang->donhang_nguoi_nhan_sdt = $request->txtNNPhone;
-    //     $donhang->donhang_nguoi_nhan_dia_chi = $request->txtNNAddr;
-    //     $donhang->donhang_ghi_chu = $request->txtNNNote;
-    //     $donhang->donhang_tong_tien = $total;
-    //     $donhang->khachhang_id = $request->txtKHID;
-    //     $donhang->tinhtranghd_id = 1;
-    //     if (request('payment_method') == 'paypal') {
-    //         $donhang->donhang_payment = 'Thanh toán qua Paypal.';
-    //     } else {
-    //         $donhang->donhang_payment = 'Thanh toán khi giao hàng.';
-    //     }
-    //     $donhang->save();
+        $donhang = new Donhang;
+        $donhang->donhang_nguoi_nhan = $request->txtNNName;
+        $donhang->donhang_nguoi_nhan_email = $request->txtNNEmail;
+        $donhang->donhang_nguoi_nhan_sdt = $request->txtNNPhone;
+        $donhang->donhang_nguoi_nhan_dia_chi = $request->txtNNAddr;
+        $donhang->donhang_ghi_chu = $request->txtNNNote;
+        $donhang->donhang_tong_tien = $total;
+        $donhang->khachhang_id = $request->txtKHID;
+        $donhang->tinhtranghd_id = 1;
+        if (request('payment_method') == 'paypal') {
+            $donhang->donhang_payment = 'Thanh toán qua Paypal.';
+        } else {
+            $donhang->donhang_payment = 'Thanh toán khi giao hàng.';
+        }
+        $donhang->save();
 
-    //     // dd($donhang->id);
+        // dd($donhang->id);
 
-    //     if(request('payment_method') == 'paypal') {
-    //             //redirect to paypal
-    //         return redirect()->route('paypal.payment',$donhang['id']);
+        if (request('payment_method') == 'paypal') {
+            //redirect to paypal
+            return redirect()->route('paypal.payment', $donhang['id']);
 
-    //     }
+        }
 
-    //     foreach ($content as $item) {
-    //         $detail = new Chitietdonhang;
-    //         $detail->sanpham_id = $item->id;
-    //         $detail->donhang_id = $donhang->id;
-    //         $detail->chitietdonhang_so_luong = $item->qty;
-    //         $detail->chitietdonhang_thanh_tien = $item->price*$item->qty;
-    //         $detail->save();
-    //     }
-    //     $kh = DB::table('khachhang')->where('id', $request->txtKHID)->first();
-    //     // print_r($kh);
-    //     $donhang = [
-    //         'id'=> $donhang->id,
-    //         'donhang_nguoi_nhan'=> $request->txtNNName,
-    //         'donhang_nguoi_nhan_email' => $request->txtNNEmail,
-    //         'donhang_nguoi_nhan_sdt' => $request->txtNNPhone,
-    //         'donhang_nguoi_nhan_dia_chi' => $request->txtNNAddr,
-    //         'donhang_ghi_chu' => $request->txtNNNote,
-    //         'donhang_tong_tien' => $total,
-    //         'khachhang_id' => $request->txtKHID,
-    //         'khachhang_email'=>$kh->khachhang_email,
-    //         ];
-    //     // dd($donhang);
+        foreach ($content as $item) {
+            $detail = new Chitietdonhang;
+            $detail->sanpham_id = $item->id;
+            $detail->donhang_id = $donhang->id;
+            $detail->chitietdonhang_so_luong = $item->qty;
+            $detail->chitietdonhang_thanh_tien = $item->price * $item->qty;
+            $detail->save();
+        }
+        $kh = DB::table('khachhang')->where('id', $request->txtKHID)->first();
+        // print_r($kh);
+        $donhang = [
+            'id' => $donhang->id,
+            'donhang_nguoi_nhan' => $request->txtNNName,
+            'donhang_nguoi_nhan_email' => $request->txtNNEmail,
+            'donhang_nguoi_nhan_sdt' => $request->txtNNPhone,
+            'donhang_nguoi_nhan_dia_chi' => $request->txtNNAddr,
+            'donhang_ghi_chu' => $request->txtNNNote,
+            'donhang_tong_tien' => $total,
+            'khachhang_id' => $request->txtKHID,
+            'khachhang_email' => $kh->khachhang_email,
+        ];
+        // dd($donhang);
 
-    //     Mail::send('auth.emails.hoadon', $donhang, function ($message) use ($donhang) {
-    //         $message->from('appnsfw@gmail.com', 'ADMIN');
+        Mail::send('auth.emails.hoadon', $donhang, function ($message) use ($donhang) {
+            $message->from('sunflower.201097@gmail.com', 'ADMIN');
 
-    //         $message->to($donhang['khachhang_email'], 'a');
+            $message->to($donhang['khachhang_email'], 'a');
 
-    //         $message->subject('Hóa đơn mua hàng tại FlowerShop!!!');
-    //     });
+            $message->subject('Thông báo đơn đặt hàng - AHT Mobile Shop!!!');
+        });
 
-    //     Mail::send('auth.emails.hoadon', $donhang, function ($message) use ($donhang) {
-    //         $message->from('appnsfw@gmail.com', 'ADMIN');
+        Mail::send('auth.emails.hoadon', $donhang, function ($message) use ($donhang) {
+            $message->from('sunflower.201097@gmail.com', 'ADMIN');
 
-    //         $message->to('appnsfw@gmail.com', 'KHÁCH HÀNG');
+            $message->to('sunflower.201097@gmail.com', 'KHÁCH HÀNG');
 
-    //         $message->subject('Hóa đơn mua hàng tại FlowerShop!!!');
-    //     });
+            $message->subject('Hóa đơn mua hàng tại AHT Mobile Shop!!!');
+        });
 
-    //     Cart::destroy();
-    //     echo "<script>
-    //       alert('Bạn đã đặt mua sản phẩm thành công!');
-    //       window.location = '".url('/')."';</script>";
-    // }
+        Cart::destroy();
+        echo "<script>
+          alert('Bạn đã đặt mua sản phẩm thành công!');
+          window.location = '" . url('/') . "';</script>";
+    }
 
     public function postComment(BinhluanRequest $request)
     {
@@ -422,7 +434,7 @@ class HomeController extends Controller
             ->where('sanpham_ten', 'like', '%' . $keyword . '%')
             ->orWhere('sanpham_url', 'like', '%' . $keyword . '%')
             ->join('lohang', 'sanpham.id', '=', 'lohang.sanpham_id')
-            ->select(DB::raw('max(lohang.id) as lomoi'), 'sanpham.id', 'sanpham.sanpham_ten', 'sanpham.sanpham_url', 'sanpham.sanpham_khuyenmai', 'sanpham.sanpham_anh', 'lohang.lohang_so_luong_nhap', 'lohang.lohang_so_luong_hien_tai')
+            ->select(DB::raw('max(lohang.id) as lomoi'), 'sanpham.id', 'sanpham.gia_ban', 'sanpham.sanpham_ten', 'sanpham.sanpham_url', 'sanpham.sanpham_khuyenmai', 'sanpham.sanpham_anh', 'lohang.lohang_so_luong_nhap', 'lohang.lohang_so_luong_hien_tai')
             ->groupBy('sanpham.id')
             ->paginate(15);
         return view('frontend.pages.product', compact('sanpham'));

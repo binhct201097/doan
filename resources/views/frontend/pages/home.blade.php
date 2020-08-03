@@ -21,7 +21,7 @@ $sanphamkhuyenmai = DB::select('select* from sanpham as sp, sanphamkhuyenmai as 
                         <div class="single-products">
                             <div class="productinfo text-center">
                                 <img src="{!! asset('resources/upload/sanpham/'.$item->sanpham_anh) !!}" alt="" />
-                                <p style="padding-top: 15px"><a
+                                <p style="padding-top: 15px"><a style="color:black; font-weight: 500"
                                         href="{!! url('san-pham',$item->sanpham_url) !!}">{!!$item->sanpham_ten !!}</a>
                                 </p>
                                 @if ($item->sanpham_khuyenmai == 1)
@@ -30,10 +30,11 @@ $tylegia = DB::select('select khuyenmai_phan_tram from sanpham as sp, sanphamkhu
 $giakm = ($item->gia_ban - ($tylegia[0]->khuyenmai_phan_tram * $item->gia_ban * 0.01));
 $tyle = $tylegia[0]->khuyenmai_phan_tram * 0.01;
 ?>
-                                <h5>{!! number_format($giakm,0,",",".") !!} vnđ <br> {!!
-                                    number_format("$item->gia_ban",0,",",".")
-                                    !!}
-                                    vnđ</h5>
+                                <h5>{!! number_format($giakm,0,",",".") !!} vnđ <br>
+                                    <del style="color:grey">{!!
+                                        number_format("$item->gia_ban",0,",",".")
+                                        !!}
+                                        vnđ</del></h5>
                                 @else
                                 <h5>{!! number_format("$item->gia_ban",0,",",".") !!} vnđ</h5>
                                 @endif
@@ -43,7 +44,7 @@ $tyle = $tylegia[0]->khuyenmai_phan_tram * 0.01;
                                     to
                                     cart</a>
                             </div>
-                            <div class="product-overlay">
+                            <div>
                                 <div class="overlay-content">
                                     <p><a href="{!! url('san-pham',$item->sanpham_url) !!}">{!!$item->sanpham_ten
                                             !!}</a>
@@ -87,7 +88,7 @@ $sanphamkhuyenmai = DB::select('select* from sanpham as sp, sanphamkhuyenmai as 
                         <div class="single-products">
                             <div class="productinfo text-center">
                                 <img src="{!! asset('resources/upload/sanpham/'.$new->sanpham_anh) !!}" alt="" />
-                                <p style="padding-top: 15px"><a
+                                <p style="padding-top: 15px"><a style="color:black; font-weight: 500"
                                         href="{!! url('san-pham',$new->sanpham_url) !!}">{!!$new->sanpham_ten !!}</a>
                                 </p>
                                 @if ($new->sanpham_khuyenmai == 1)
@@ -96,10 +97,10 @@ $tylegia = DB::select('select khuyenmai_phan_tram from sanpham as sp, sanphamkhu
 $giakm = ($new->gia_ban - ($tylegia[0]->khuyenmai_phan_tram * $new->gia_ban * 0.01));
 $tyle = $tylegia[0]->khuyenmai_phan_tram * 0.01;
 ?>
-                                <h5>{!! number_format($giakm,0,",",".") !!} vnđ <br> {!!
-                                    number_format("$new->gia_ban",0,",",".")
-                                    !!}
-                                    vnđ</h5>
+                                <h5>{!! number_format($giakm,0,",",".") !!} vnđ <br> <del style="color:grey">{!!
+                                        number_format("$new->gia_ban",0,",",".")
+                                        !!}
+                                        vnđ</del></h5>
                                 @else
                                 <h5>{!! number_format("$new->gia_ban",0,",",".") !!} vnđ</h5>
                                 @endif
@@ -109,9 +110,9 @@ $tyle = $tylegia[0]->khuyenmai_phan_tram * 0.01;
                                     to
                                     cart</a>
                             </div>
-                            <div class="product-overlay">
+                            <div>
                                 <div class="overlay-content">
-                                    <p style="padding-top: 15px"><a
+                                    <p style="padding-top: 15px"><a style="color:black; font-weight: 500"
                                             href="{!! url('san-pham',$new->sanpham_url) !!}">{!!$new->sanpham_ten
                                             !!}</a>
                                     </p>

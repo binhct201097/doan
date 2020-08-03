@@ -43,7 +43,7 @@ $tyle = $tylegia[0]->khuyenmai_phan_tram * 0.01;
                                     to
                                     cart</a>
                             </div>
-                            <div class="product-overlay">
+                            <div>
                                 <div class="overlay-content">
                                     <p><a href="{!! url('san-pham',$item->sanpham_url) !!}">{!!$item->sanpham_ten
                                             !!}</a>

@@ -65,7 +65,7 @@
                                                 href="{!! url('san-pham',$item->sanpham_url) !!}">{!! $item->sanpham_ten
                                                 !!}</a></h4>
                                         <span class="aa-product-price">{!!
-                                            number_format("$item->lohang_gia_ban_ra",0,",",".") !!}vnđ</span>
+                                            number_format("$item->gia_ban",0,",",".") !!}vnđ</span>
                                     </figcaption>
                                 </figure>
                                 @if ($item->sanpham_khuyenmai == 1)

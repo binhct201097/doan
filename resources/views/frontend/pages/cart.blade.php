@@ -46,7 +46,7 @@ $sanpham = DB::table('sanpham')->where('id', $item->id)->first();
                     <td><input class="qty aa-cart-quantity" type="number" value="{!!  $item->qty !!}"></td>
                     <td>{!! number_format($item->price*$item->qty,0,",",".") !!}vnđ</td>
                     <td><a class="remove" href='xoa-san-pham/{{$item->rowId}}'>
-                            <fa class="fa fa-close"></fa>
+                            <fa class="fa fa-close">x</fa>
                         </a></td>
                 </tr>
                 @endforeach
